@@ -20,14 +20,14 @@ use Inertia\Inertia;
 
 Route::get('/', [NewsController::class, 'index'])->name('Homepage');
 
-Route::get('/welcome', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::post('/news', [NewsController::class, 'store'])->middleware('auth');
+Route::get('/news', [NewsController::class, 'show'])->middleware('auth');
+Route::get('/news/{id}/edit', [NewsController::class, 'edit'])->name('news.edit')->middleware('auth');
+Route::put('/news/update/{id}', [NewsController::class, 'update'])->name('news.update')->middleware('auth');
+Route::get('/news/delete/{id}', [NewsController::class, 'destroy'])->name('news.destroy')->middleware('auth');
+
+
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
